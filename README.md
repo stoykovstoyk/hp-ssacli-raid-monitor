@@ -49,6 +49,75 @@ RAID Status: All drives are OK
 RAID Alert: Drive issue detected - <output>
 ```
 
+## Usage with Cron
+
+To schedule the `raid_status_checker.sh` script to run every hour using cron, follow these instructions:
+
+1. **Locate the `ssacli` Command:**
+   - Use the `which` command to find the location of the `ssacli` command on your system:
+     ```bash
+     which ssacli
+     ```
+   - The output will display the full path to the `ssacli` command.
+
+2. **Update the Script:**
+   - Open the `raid_status_checker.sh` script in a text editor.
+   - Find the line that runs the `ssacli` command (e.g., `OUTPUT=$(ssacli ctrl slot=0 pd all show status)`).
+   - Replace `ssacli` with the full path to the `ssacli` command obtained in step 1.
+
+3. **Set up Cron Job:**
+   - Open the cron table for editing:
+     ```bash
+     crontab -e
+     ```
+   - Add a new line to schedule the script to run every hour:
+     ```bash
+     0 * * * * /path/to/raid_status_checker.sh
+     ```
+     Replace `/path/to/raid_status_checker.sh` with the actual path to your script.
+
+4. **Save and Exit:** 
+   - Save the changes to the cron table and exit the editor.
+
+## Troubleshooting Cron
+
+If you encounter issues when running the script with cron, follow these troubleshooting steps:
+
+1. **Redirect Output:**
+   - Redirect both stdout and stderr of the cron job to a log file to capture any error messages or debug information:
+     ```bash
+     0 * * * * /path/to/raid_status_checker.sh >> /path/to/cron_log.log 2>&1
+     ```
+
+2. **Specify Full Paths:**
+   - Specify the full path to the `ssacli` command in the script to ensure it is found by cron.
+
+3. **Permissions:**
+   - Ensure that the user executing the cron job has appropriate permissions to execute the script and access any necessary resources.
+
+By following these troubleshooting steps, you should be able to diagnose and resolve any issues related to executing the script with cron.
+
+
+If you encounter issues when running the script with cron, particularly if you receive a "command not found" error related to `ssacli`, follow these steps:
+
+1. **Locate the `ssacli` Command:**
+   - Use the `which` command to find the location of the `ssacli` command on your system:
+     ```bash
+     which ssacli
+     ```
+   - The output will display the full path to the `ssacli` command.
+
+2. **Update the Script:**
+   - Open the `raid_status_checker.sh` script in a text editor.
+   - Find the line that runs the `ssacli` command (e.g., `OUTPUT=$(ssacli ctrl slot=0 pd all show status)`).
+   - Replace `ssacli` with the full path to the `ssacli` command obtained in step 1.
+
+3. **Save and Test:**
+   - Save the changes to the script.
+   - Test the script with cron to ensure that it executes successfully.
+
+By following these steps, you should be able to resolve any issues related to executing the script with cron.
+
 
 ## Contribution
 
